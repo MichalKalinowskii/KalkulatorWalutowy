@@ -1,0 +1,35 @@
+--docker run --name kalkulator-mysql -e MYSQL_ROOT_PASSWORD=secret -e MYSQL_DATABASE=kalkulator -p 3306:3306 -d mysql:latest
+
+CREATE DATABASE IF NOT EXISTS kalkulator;
+USE kalkulator;
+
+CREATE TABLE NBP (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    TableType VARCHAR(10),
+    No VARCHAR(50),
+    TradingDate DATE ,
+    EffectiveDate DATE
+);
+
+CREATE TABLE NBPRates (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    NBPID INT,
+    Currency VARCHAR(50),
+    Code VARCHAR(10),
+    Mid DOUBLE,
+    FOREIGN KEY (NBPID) REFERENCES NBP(ID)
+);
+
+CREATE TABLE Users (
+	ID INT AUTO_INCREMENT PRIMARY KEY,
+	Username VARCHAR(50),
+	Password VARCHAR(50)
+);
+
+CREATE TABLE UsersNBP (
+	ID INT AUTO_INCREMENT PRIMARY KEY,
+	UserID INT,
+	NBPID INT,
+	FOREIGN KEY (UserID) REFERENCES Users(ID),
+	FOREIGN KEY (NBPID) REFERENCES NBP(ID)
+);
