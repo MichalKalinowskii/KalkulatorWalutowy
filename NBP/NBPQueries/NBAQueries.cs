@@ -1,4 +1,5 @@
-﻿using NBP.Models;
+﻿using Database.Models;
+using NBP.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,11 @@ namespace NBP.NBPQueries
     public class NBAQueries
     {
         HttpClient HttpClient { get; set; }
-        public NBAQueries()
+        KalkulatorContext db;
+
+        public NBAQueries(KalkulatorContext db)
         {
+            this.db = db;
             HttpClient = new HttpClient();
         }
 
@@ -27,6 +31,29 @@ namespace NBP.NBPQueries
                 var content = await response.Content.ReadAsStringAsync();
                 result = JsonConvert.DeserializeObject<List<NBPResponse>>(content);
             }
+
+            DateOnly.TryParse(result.First().EffectiveDate, out DateOnly date);
+
+            List<Nbprate> rates = new();
+
+            result.First().Rates.ForEach(x => rates.Add(new Nbprate
+            {
+                Currency = x.Currency,
+                Code = x.Code,
+                Mid = x.Mid
+            }));
+
+            var entity = new Nbp
+            {
+                TableType = result.First().Table,
+                No = result.First().No,
+                EffectiveDate = date,
+                Nbprates = rates
+            };
+
+            db.Nbps.Add(entity);
+
+            await db.SaveChangesAsync();
 
             return result;
         }
