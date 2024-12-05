@@ -1,38 +1,37 @@
-﻿using Database.Models;
+﻿using Database;
+using Database.Models;
 using Microsoft.AspNetCore.Mvc;
 using NBP.Models;
 using NBP.NBPQueries;
+using NBP.NBPQueries.Interfaces;
 
 namespace KalkulatorWalutowyWebAPI.Controllers
 {
     [Route("NBP")]
     public class NBPController : ApiBaseController
     {
-        KalkulatorContext db;
+        private readonly INBPQueries nbp;
 
-        NBPController(KalkulatorContext db)
+        NBPController(INBPQueries nbp)
         {
-            this.db = db;
+            this.nbp = this.nbp;
         }
 
         [HttpGet("Today")]
         public async Task<List<NBPResponse>> GetNBPTodayRates()
         {
-            var nbp = new NBAQueries(db);
             return await nbp.GetNBPTodayDataAsync();
         }
 
         [HttpGet("Date")]
         public async Task<List<NBPResponse>> GetNBPRatesInGivenDate(DateTime date)
         {
-            var nbp = new NBAQueries(db);
             return await nbp.GetNBPDataInGivenDate(date);
         }
 
         [HttpGet("Range")]
         public async Task<List<NBPResponse>> GetNBPRatesInGivenRange(int range)
         {
-            var nbp = new NBAQueries(db);
             return await nbp.GetNBPRatesInGivenRange(range);
         }
     }

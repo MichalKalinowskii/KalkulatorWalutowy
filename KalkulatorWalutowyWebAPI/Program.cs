@@ -1,6 +1,7 @@
 
-using Database.Models;
+using Database;
 using Microsoft.EntityFrameworkCore;
+using NBP;
 
 namespace KalkulatorWalutowyWebAPI
 {
@@ -11,16 +12,17 @@ namespace KalkulatorWalutowyWebAPI
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            //builder.Services.RegisterDatabase();
+
+            builder.Services.AddDbContextPool<KalkulatorContext>(options =>
+                options.UseMySql("server=127.0.0.1;port=3306;database=kalkulator;user=root;password=secret",
+                    ServerVersion.AutoDetect("server=127.0.0.1;port=3306;database=kalkulator;user=root;password=secret")));
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
-            //builder.Services.RegisterDatabase();
-            builder.Services.AddDbContext<KalkulatorContext>(options =>
-                options.UseMySql("server=127.0.0.1;port=3306;database=kalkulator;user=root;password=secret",
-                Microsoft.EntityFrameworkCore.ServerVersion.Parse("9.1.0-mysql")));
+            builder.Services.NBPServicesRegistrationExtension();
 
             var app = builder.Build();
 

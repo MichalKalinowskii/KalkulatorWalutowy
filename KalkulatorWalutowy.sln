@@ -7,12 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KalkulatorWalutowyWebAPI", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NBP", "NBP\NBP.csproj", "{FEE8BE5A-1F1D-4CB5-BD1F-ABD66CE7A56A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{961E5BFB-5A74-4C6B-8F29-4E4126EAA11A}"
-	ProjectSection(SolutionItems) = preProject
-		mysql.txt = mysql.txt
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "Database\Database.csproj", "{AA657318-42EA-4570-8380-F244B1E9589B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database", "Database\Database.csproj", "{AA657318-42EA-4570-8380-F244B1E9589B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

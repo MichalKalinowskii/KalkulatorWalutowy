@@ -1,5 +1,8 @@
-﻿using Database.Models;
+﻿using Database;
+using Database.Interfaces;
+using Database.Models;
 using NBP.Models;
+using NBP.NBPQueries.Interfaces;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -10,22 +13,22 @@ using System.Threading.Tasks;
 
 namespace NBP.NBPQueries
 {
-    public class NBAQueries
+    public class NBPQueries : INBPQueries
     {
-        HttpClient HttpClient { get; set; }
-        KalkulatorContext db;
+        private readonly HttpClient httpClient;
+        private readonly KalkulatorContext db;
 
-        public NBAQueries(KalkulatorContext db)
+        public NBPQueries(KalkulatorContext db)
         {
             this.db = db;
-            HttpClient = new HttpClient();
+            httpClient = new HttpClient();
         }
 
         public async Task<List<NBPResponse>> GetNBPTodayDataAsync()
         {
             List<NBPResponse> result = new();
 
-            var response = await HttpClient.GetAsync("https://api.nbp.pl/api/exchangerates/tables/a/today/");
+            var response = await httpClient.GetAsync("https://api.nbp.pl/api/exchangerates/tables/a/today/");
             if (response?.StatusCode == HttpStatusCode.OK)
             {
                 var content = await response.Content.ReadAsStringAsync();
@@ -51,7 +54,7 @@ namespace NBP.NBPQueries
                 Nbprates = rates
             };
 
-            db.Nbps.Add(entity);
+            db.Set<Nbp>().Add(entity);
 
             await db.SaveChangesAsync();
 
@@ -63,7 +66,7 @@ namespace NBP.NBPQueries
             HttpClient client = new HttpClient();
             List<NBPResponse> result = new();
 
-            var response = await HttpClient.GetAsync($"https://api.nbp.pl/api/exchangerates/tables/a/{date.ToString("yyyy-MM-dd")}");
+            var response = await httpClient.GetAsync($"https://api.nbp.pl/api/exchangerates/tables/a/{date.ToString("yyyy-MM-dd")}");
             if (response?.StatusCode == HttpStatusCode.OK)
             {
                 var content = await response.Content.ReadAsStringAsync();
@@ -78,7 +81,7 @@ namespace NBP.NBPQueries
             HttpClient client = new HttpClient();
             List<NBPResponse> result = new();
 
-            var response = await HttpClient.GetAsync($"https://api.nbp.pl/api/exchangerates/tables/a/last/{range}/");
+            var response = await httpClient.GetAsync($"https://api.nbp.pl/api/exchangerates/tables/a/last/{range}/");
             if (response?.StatusCode == HttpStatusCode.OK)
             {
                 var content = await response.Content.ReadAsStringAsync();
