@@ -10,11 +10,9 @@ namespace NBP
 {
     public static class NBPServicesRegistration
     {
-        public static IServiceCollection NBPServicesRegistrationExtension(this IServiceCollection services)
+        public static void NBPServicesRegistrationExtension(this IServiceCollection services)
         {
             services.AddScoped<INBPQueries, NBPQueries.NBPQueries>();
-
-            return services;
         }
     }
 }

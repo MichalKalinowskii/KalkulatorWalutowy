@@ -7,7 +7,7 @@ using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 
 namespace Database;
 
-public partial class KalkulatorContext : DbContext
+public partial class KalkulatorContext : DbContext, IKalkulatorContext
 {
     public KalkulatorContext()
     {

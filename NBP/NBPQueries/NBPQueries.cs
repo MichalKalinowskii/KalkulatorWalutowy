@@ -16,9 +16,9 @@ namespace NBP.NBPQueries
     public class NBPQueries : INBPQueries
     {
         private readonly HttpClient httpClient;
-        private readonly KalkulatorContext db;
+        private readonly IKalkulatorContext db;
 
-        public NBPQueries(KalkulatorContext db)
+        public NBPQueries(IKalkulatorContext db)
         {
             this.db = db;
             httpClient = new HttpClient();

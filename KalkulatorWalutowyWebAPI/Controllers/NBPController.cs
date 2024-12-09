@@ -11,11 +11,11 @@ namespace KalkulatorWalutowyWebAPI.Controllers
     public class NBPController : ApiBaseController
     {
         private readonly INBPQueries nbp;
-
-        NBPController(INBPQueries nbp)
+        public NBPController(INBPQueries nbp)
         {
-            this.nbp = this.nbp;
+            this.nbp = nbp;
         }
+
 
         [HttpGet("Today")]
         public async Task<List<NBPResponse>> GetNBPTodayRates()

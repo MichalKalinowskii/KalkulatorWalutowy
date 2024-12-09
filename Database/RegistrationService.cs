@@ -6,13 +6,13 @@ namespace Database
 {
     public static class RegistrationService
     {
-        public static IServiceCollection RegisterDatabase(this IServiceCollection services)
+        public static void RegisterDatabase(this IServiceCollection services)
         {
             string connectionString = "server=127.0.0.1;port=3306;database=kalkulator;user=root;password=secret";
             services.AddDbContextPool<KalkulatorContext>(options =>
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
-            return services;
+            services.AddScoped<IKalkulatorContext, KalkulatorContext>();
         }
     }
 }
