@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using NBP;
 using NBP.NBPQueries.Interfaces;
 using NBP.NBPQueries;
+using User;
 
 namespace KalkulatorWalutowyWebAPI
 {
@@ -22,6 +23,7 @@ namespace KalkulatorWalutowyWebAPI
 
             builder.Services.RegisterDatabase();
             builder.Services.NBPServicesRegistrationExtension();
+            builder.Services.UserServicesRegistrationExtension();
 
             var app = builder.Build();
 

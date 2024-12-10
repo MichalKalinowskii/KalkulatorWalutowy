@@ -35,28 +35,7 @@ namespace NBP.NBPQueries
                 result = JsonConvert.DeserializeObject<List<NBPResponse>>(content);
             }
 
-            DateOnly.TryParse(result.First().EffectiveDate, out DateOnly date);
-
-            List<Nbprate> rates = new();
-
-            result.First().Rates.ForEach(x => rates.Add(new Nbprate
-            {
-                Currency = x.Currency,
-                Code = x.Code,
-                Mid = x.Mid
-            }));
-
-            var entity = new Nbp
-            {
-                TableType = result.First().Table,
-                No = result.First().No,
-                EffectiveDate = date,
-                Nbprates = rates
-            };
-
-            db.Set<Nbp>().Add(entity);
-
-            await db.SaveChangesAsync();
+            
 
             return result;
         }

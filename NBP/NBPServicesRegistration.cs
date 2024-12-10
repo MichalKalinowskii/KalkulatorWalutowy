@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using NBP.NBPCommands.Interfaces;
 using NBP.NBPQueries.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace NBP
         public static void NBPServicesRegistrationExtension(this IServiceCollection services)
         {
             services.AddScoped<INBPQueries, NBPQueries.NBPQueries>();
+            services.AddScoped<INBPCommands, NBPCommands.NBPCommands>();
         }
     }
 }
