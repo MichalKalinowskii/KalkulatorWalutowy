@@ -6,7 +6,7 @@ import { NbpComponent } from "./nbp/nbp.component";
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, NbpComponent],
+  imports: [CommonModule, NbpComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })

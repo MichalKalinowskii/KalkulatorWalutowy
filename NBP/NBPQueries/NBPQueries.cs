@@ -24,32 +24,29 @@ namespace NBP.NBPQueries
             httpClient = new HttpClient();
         }
 
-        public async Task<List<NBPResponse>> GetNBPTodayDataAsync()
+        public async Task<NBPResponse> GetNBPTodayDataAsync()
         {
-            List<NBPResponse> result = new();
+            NBPResponse result = new();
 
             var response = await httpClient.GetAsync("https://api.nbp.pl/api/exchangerates/tables/a/today/");
             if (response?.StatusCode == HttpStatusCode.OK)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                result = JsonConvert.DeserializeObject<List<NBPResponse>>(content);
+                result = JsonConvert.DeserializeObject<List<NBPResponse>>(content).First();
             }
-
-            
 
             return result;
         }
 
-        public async Task<List<NBPResponse>> GetNBPDataInGivenDate(DateTime date)
+        public async Task<NBPResponse> GetNBPDataInGivenDate(DateTime date)
         {
-            HttpClient client = new HttpClient();
-            List<NBPResponse> result = new();
+            NBPResponse result = new();
 
             var response = await httpClient.GetAsync($"https://api.nbp.pl/api/exchangerates/tables/a/{date.ToString("yyyy-MM-dd")}");
             if (response?.StatusCode == HttpStatusCode.OK)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                result = JsonConvert.DeserializeObject<List<NBPResponse>>(content);
+                result = JsonConvert.DeserializeObject<List<NBPResponse>>(content).First();
             }
 
             return result;

@@ -1,9 +1,44 @@
-@if (exchangeRates | async) {
-
-    <div>
-        <h1>Data from Component</h1>
-        <pre>{{ exchangeRates }}</pre>
+<mat-form-field>
+    <mat-label>Wybierz date</mat-label>
+    <input matInput [matDatepicker]="picker" (dateChange)="onDateChange($event)" [value]="todayDate">
+    <mat-hint>DD/MM/RRRR</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+  
+@if ((exchangeRates$ | async)?.rates; as rates) {
+    <div class="container">
+        <div class="row">
+        <div class="col-md-12">
+            <h1>Kursy walut</h1>
+            <table class="table table-striped">
+            <thead>
+                <tr>
+                <th>Waluta</th>
+                <th>Kod</th>
+                <th>Kurs</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (rate of rates; track rate) {
+                    <tr>
+                        <td>{{ rate.currency }}</td>
+                        <td>{{ rate.code }}</td>
+                        <td>{{ rate.mid }}</td>
+                    </tr>
+                }
+            </tbody>
+            </table>
+        </div>
+        </div>
+    </div>
+} 
+@else {
+    <div class="container">
+        <div class="row">
+        <div class="col-md-12">
+            <h1>Brak danych na ten dzień</h1>
+        </div>
+        </div>
     </div>
 }
-
-test

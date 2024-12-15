@@ -23,13 +23,13 @@ namespace KalkulatorWalutowyWebAPI.Controllers
 
 
         [HttpGet("today")]
-        public async Task<List<NBPResponse>> GetNBPTodayRates()
+        public async Task<NBPResponse> GetNBPTodayRates()
         {
             return await nbpQuries.GetNBPTodayDataAsync();
         }
 
         [HttpGet("date")]
-        public async Task<List<NBPResponse>> GetNBPRatesInGivenDate(DateTime date)
+        public async Task<NBPResponse> GetNBPRatesInGivenDate(DateTime date)
         {
             return await nbpQuries.GetNBPDataInGivenDate(date);
         }

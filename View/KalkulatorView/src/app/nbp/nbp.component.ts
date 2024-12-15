@@ -1,28 +1,55 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { NbpService } from '../services/nbpService';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, CommonModule, DatePipe } from '@angular/common';
+import { NBPRates } from '../models/NBPRates';
+import { Subject } from 'rxjs';
+import {MatDatepicker, MatDatepickerInputEvent, MatDatepickerModule} from '@angular/material/datepicker';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {provideNativeDateAdapter} from '@angular/material/core';
+
 
 @Component({
   selector: 'app-nbp',
   standalone: true,
-  imports: [AsyncPipe],
+  providers: [provideNativeDateAdapter(), DatePipe],
+  imports: [
+    CommonModule,
+    AsyncPipe,
+    MatFormFieldModule,
+    MatInputModule, 
+    MatDatepickerModule
+  ],
   templateUrl: './nbp.component.html',
   styleUrl: './nbp.component.css'
 })
 
 export class NbpComponent implements OnInit {
-  exchangeRates: any;
+  public exchangeRates$: Subject<NBPRates> = new Subject<NBPRates>();
+  public todayDate = new Date();
 
-  constructor(private nbpService: NbpService) {}
+  constructor(private nbpService: NbpService, private datePipe: DatePipe) {}
 
   ngOnInit(): void {
-    this.getExchangeRates();
+    this.getTodayExchangeRates();
   }
 
-  getExchangeRates(): void {
-    this.nbpService.getTodayExchangeRates().subscribe((data) => {
-      this.exchangeRates = data;
-    });
+  getTodayExchangeRates(): void {
+    this.nbpService.getTodayExchangeRates().subscribe(data => this.exchangeRates$.next(data));
+  }
+
+  getExchangeRatesByDate(date: Date): void {
+    const formattedDate = this.datePipe.transform(date, 'yyyy-MM-dd');
+    if (formattedDate) {
+      this.nbpService.getExchangeRatesByDate(formattedDate).subscribe(data => this.exchangeRates$.next(data));
+    }
+  }
+
+  onDateChange(event: MatDatepickerInputEvent<Date>): void {
+    const selectedDate = event.value;
+    if (selectedDate !== null) {
+      this.getExchangeRatesByDate(selectedDate);
+    }
   }
 }

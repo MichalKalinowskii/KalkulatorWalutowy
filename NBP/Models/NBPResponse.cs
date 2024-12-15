@@ -10,8 +10,8 @@ namespace NBP.Models
     {
         public string Table { get; set; }
         public string No { get; set; }
-        public string TradingDate { get; set; }
-        public string EffectiveDate { get; set; }
+        public DateOnly? TradingDate { get; set; }
+        public DateOnly? EffectiveDate { get; set; }
         public List<Rates> Rates { get; set; }
     }
 }

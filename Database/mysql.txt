@@ -1,4 +1,5 @@
 --docker run --name kalkulator-mysql -e MYSQL_ROOT_PASSWORD=secret -e MYSQL_DATABASE=kalkulator -p 3306:3306 -d mysql:latest
+--npm install @angular/material @angular/cdk --legacy-peer-deps
 
 CREATE DATABASE IF NOT EXISTS kalkulator;
 USE kalkulator;

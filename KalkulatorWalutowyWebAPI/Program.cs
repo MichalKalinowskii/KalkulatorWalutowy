@@ -22,6 +22,7 @@ namespace KalkulatorWalutowyWebAPI
             builder.Services.AddSwaggerGen();
 
             builder.Services.RegisterDatabase();
+            builder.Services.AddCors();
             builder.Services.NBPServicesRegistrationExtension();
             builder.Services.UserServicesRegistrationExtension();
 
@@ -36,8 +37,9 @@ namespace KalkulatorWalutowyWebAPI
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            app.UseCors(corsBulider => corsBulider.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
 
+            app.UseAuthorization();
 
             app.MapControllers();
 
