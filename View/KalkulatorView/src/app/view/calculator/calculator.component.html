@@ -1,0 +1,15 @@
+<div class="flex space-x-4">
+    <select class="block border border-gray-300 rounded-md p-2">
+        @for (rate of rates; track $index) 
+        {
+            <option [value]="rate">{{ rate.currency }} [{{ rate.code }}]</option>
+        }
+    </select>
+
+    <select class="block border border-gray-300 rounded-md p-2">
+        @for (rate of rates; track $index) 
+        {
+            <option [value]="rate">{{ rate.currency }} [{{ rate.code }}]</option>
+        }
+    </select>
+</div>

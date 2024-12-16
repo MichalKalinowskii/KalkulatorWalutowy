@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { NbpComponent } from "./nbp/nbp.component";
+import { NbpComponent } from "./view/nbp/nbp.component";
 
 @Component({
   selector: 'app-root',

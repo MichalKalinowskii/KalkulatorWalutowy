@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { OnInit } from '@angular/core';
-import { NbpService } from '../services/nbpService';
+import { NbpService } from '../../services/nbpService';
 import { AsyncPipe, CommonModule, DatePipe } from '@angular/common';
-import { NBPRates } from '../models/NBPRates';
+import { NBPRates } from '../../models/NBPRates';
 import { Subject } from 'rxjs';
 import {MatDatepicker, MatDatepickerInputEvent, MatDatepickerModule} from '@angular/material/datepicker';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {provideNativeDateAdapter} from '@angular/material/core';
+import { CalculatorComponent } from "../calculator/calculator.component";
 
 
 @Component({
@@ -18,9 +19,10 @@ import {provideNativeDateAdapter} from '@angular/material/core';
     CommonModule,
     AsyncPipe,
     MatFormFieldModule,
-    MatInputModule, 
-    MatDatepickerModule
-  ],
+    MatInputModule,
+    MatDatepickerModule,
+    CalculatorComponent
+],
   templateUrl: './nbp.component.html',
   styleUrl: './nbp.component.css'
 })
