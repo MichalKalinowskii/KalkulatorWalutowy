@@ -1,15 +1,23 @@
-<div class="flex space-x-4">
-    <select class="block border border-gray-300 rounded-md p-2">
-        @for (rate of rates; track $index) 
-        {
-            <option [value]="rate">{{ rate.currency }} [{{ rate.code }}]</option>
-        }
-    </select>
-
-    <select class="block border border-gray-300 rounded-md p-2">
-        @for (rate of rates; track $index) 
-        {
-            <option [value]="rate">{{ rate.currency }} [{{ rate.code }}]</option>
-        }
-    </select>
+<div class="container flex space-x-4">
+    <div class>
+        <input [(ngModel)]="leftInput" (input)="onLeftRateChange(leftRate)" type="number" class="block border border-gray-300 rounded-md p-2" placeholder="Podaj wartość" min="0">
+        <input [(ngModel)]="rightInput" (input)="onRightRateChange(rightRate)" type="number" class="block border border-gray-300 rounded-md p-2" placeholder="Podaj wartość" min="0">
+    </div>
+    <div>
+        <div class="container">
+            <select [(ngModel)]="leftRate" (change)="onLeftRateChange(leftRate)" class="block border border-gray-300 rounded-md p-2">
+                @for (rate of rates; track $index) 
+                {
+                    <option [ngValue]="rate">{{ rate.currency }} [{{ rate.code }}]</option>
+                }
+            </select>
+            
+            <select [(ngModel)]="rightRate" (change)="onRightRateChange(rightRate)" class="block border border-gray-300 rounded-md p-2">
+                @for (rate of rates; track $index) 
+                {
+                    <option [ngValue]="rate">{{ rate.currency }} [{{ rate.code }}]</option>
+                }
+            </select>
+        </div>
+    </div>
 </div>
