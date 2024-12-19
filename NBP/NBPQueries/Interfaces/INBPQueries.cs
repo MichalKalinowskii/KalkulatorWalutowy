@@ -10,7 +10,7 @@ namespace NBP.NBPQueries.Interfaces
     public interface INBPQueries
     {
         Task<NBPResponse> GetNBPTodayDataAsync();
-        Task<NBPResponse> GetNBPDataInGivenDate(DateTime date);
+        Task<NBPResponse> GetNBPDataByGivenDate(DateTime date);
         Task<List<NBPResponse>> GetNBPRatesInGivenRange(int range);
     }
 }

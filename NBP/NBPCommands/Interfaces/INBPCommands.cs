@@ -4,6 +4,6 @@ namespace NBP.NBPCommands.Interfaces
 {
     public interface INBPCommands
     {
-        Task SaveRates(Nbp entity);
+        Task SaveRates(DateTime date);
     }
 }

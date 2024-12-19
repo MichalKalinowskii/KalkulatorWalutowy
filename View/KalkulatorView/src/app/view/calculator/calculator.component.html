@@ -6,16 +6,16 @@
     <div>
         <div class="container">
             <select [(ngModel)]="leftRate" (change)="onLeftRateChange(leftRate)" class="block border border-gray-300 rounded-md p-2">
-                @for (rate of rates; track $index) 
+                @for (rate of rates; track rate.code) 
                 {
-                    <option [ngValue]="rate">{{ rate.currency }} [{{ rate.code }}]</option>
+                    <option [ngValue]="rate">[{{ rate.code }}] {{ rate.currency }}</option>
                 }
             </select>
             
             <select [(ngModel)]="rightRate" (change)="onRightRateChange(rightRate)" class="block border border-gray-300 rounded-md p-2">
-                @for (rate of rates; track $index) 
+                @for (rate of rates; track rate.code) 
                 {
-                    <option [ngValue]="rate">{{ rate.currency }} [{{ rate.code }}]</option>
+                    <option [ngValue]="rate">[{{ rate.code }}] {{ rate.currency }}</option>
                 }
             </select>
         </div>

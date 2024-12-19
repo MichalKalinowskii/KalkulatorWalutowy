@@ -38,13 +38,25 @@ export class NbpComponent implements OnInit {
   }
 
   getTodayExchangeRates(): void {
-    this.nbpService.getTodayExchangeRates().subscribe(data => this.exchangeRates$.next(data));
+    this.nbpService.getTodayExchangeRates().subscribe(data => 
+      {
+        if (data?.rates?.length > 0) {
+          data.rates.unshift({ code: 'PLN', mid: 1, currency: 'złoty' });
+        }
+        this.exchangeRates$.next(data)
+      });
+    this.todayDate = new Date();
   }
 
   getExchangeRatesByDate(date: Date): void {
     const formattedDate = this.datePipe.transform(date, 'yyyy-MM-dd');
     if (formattedDate) {
-      this.nbpService.getExchangeRatesByDate(formattedDate).subscribe(data => this.exchangeRates$.next(data));
+      this.nbpService.getExchangeRatesByDate(formattedDate).subscribe(data => {
+        if (data?.rates?.length > 0) {
+          data.rates.unshift({ code: 'PLN', mid: 1, currency: 'złoty' });
+        }
+        this.exchangeRates$.next(data)
+      });
     }
   }
 
@@ -53,5 +65,14 @@ export class NbpComponent implements OnInit {
     if (selectedDate !== null) {
       this.getExchangeRatesByDate(selectedDate);
     }
+  }
+
+  onTodayButtonClick(): void {
+    console.log('onTodayButtonClick');
+    this.getTodayExchangeRates();
+  }
+
+  public saveNbpRates(): void {
+    this.nbpService.saveNbpRates(this.todayDate.toString()).subscribe(() => {});
   }
 }

@@ -2,6 +2,7 @@
 using Database.Models;
 using NBP.Models;
 using NBP.NBPCommands.Interfaces;
+using NBP.NBPQueries.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,40 +15,44 @@ namespace NBP.NBPCommands
     public class NBPCommands : INBPCommands
     {
         private readonly IKalkulatorContext db;
+        private readonly INBPQueries nbpQueries;
 
-        public NBPCommands(IKalkulatorContext db)
+        public NBPCommands(IKalkulatorContext db, INBPQueries nbpQueries)
         {
             this.db = db;
+            this.nbpQueries = nbpQueries;
         }
 
-        public async Task SaveRates(Nbp entity)
+        public async Task SaveRates(DateTime date)
         {
-            db.Set<Nbp>().Add(entity);
+            var respone = await nbpQueries.GetNBPDataByGivenDate(date);
+            var entityToSave = MapToNbp(respone);
+
+            db.Set<Nbp>().Add(entityToSave);
 
             await db.SaveChangesAsync();
         }
 
-        //DateOnly.TryParse(result.First().EffectiveDate, out DateOnly date);
+        public Nbp MapToNbp(NBPResponse respone)
+        {
+            List<Nbprate> rates = new();
 
-        //List<Nbprate> rates = new();
+            respone.Rates.ForEach(x => rates.Add(new Nbprate
+            {
+                Currency = x.Currency,
+                Code = x.Code,
+                Mid = x.Mid
+            }));
 
-        //result.First().Rates.ForEach(x => rates.Add(new Nbprate
-        //    {
-        //        Currency = x.Currency,
-        //        Code = x.Code,
-        //        Mid = x.Mid
-        //}));
+            var nbpMappedObject = new Nbp
+            {
+                TableType = respone.Table,
+                No = respone.No,
+                EffectiveDate = respone.EffectiveDate,
+                Nbprates = rates
+            };
 
-        //        var entity = new Nbp
-        //        {
-        //            TableType = result.First().Table,
-        //            No = result.First().No,
-        //            EffectiveDate = date,
-        //            Nbprates = rates
-        //        };
-
-        //db.Set<Nbp>().Add(entity);
-
-        //await db.SaveChangesAsync();
+            return nbpMappedObject;
+        }
     }
 }

@@ -38,7 +38,7 @@ namespace NBP.NBPQueries
             return result;
         }
 
-        public async Task<NBPResponse> GetNBPDataInGivenDate(DateTime date)
+        public async Task<NBPResponse> GetNBPDataByGivenDate(DateTime date)
         {
             NBPResponse result = new();
 

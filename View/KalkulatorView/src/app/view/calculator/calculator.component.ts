@@ -9,25 +9,30 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './calculator.component.html',
   styleUrl: './calculator.component.css'
 })
-export class CalculatorComponent implements AfterViewInit, OnChanges {
+export class CalculatorComponent implements OnChanges {
   @Input() public rates!: Rates[];
 
-  public leftInput!: number;
-  public rightInput!: number;
+  public leftInput: number | null = null;
+  public rightInput: number | null = null;
 
   public leftRate!: Rates;
   public rightRate!: Rates;
-  
-  ngAfterViewInit(): void {
-    this.rates.unshift( { code: 'PLN', mid: 1, currency: "złoty" } as Rates );
-    this.leftRate = this.rates[0];
-    this.rightRate = this.rates.find(rate => rate.code === 'EUR') as Rates;
-  }
 
   ngOnChanges(): void {
-    this.rates.unshift( { code: 'PLN', mid: 1, currency: "złoty" } as Rates );
-    this.leftRate = this.rates[0];
-    this.rightRate = this.rates.find(rate => rate.code === 'EUR') as Rates;
+    if (this.leftRate != null) {
+      this.leftRate = this.rates.find(rate => rate.code === this.leftRate.code) as Rates;
+    }
+    else {
+      this.leftRate = this.rates[0];
+    }
+
+    if (this.rightRate != null) {
+      this.rightRate = this.rates.find(rate => rate.code === this.rightRate.code) as Rates;
+    } 
+    else {
+      this.rightRate = this.rates.find(rate => rate.code === 'EUR') as Rates;
+    }
+    
     this.onLeftRateChange(this.leftRate);
   }
 
@@ -38,10 +43,11 @@ export class CalculatorComponent implements AfterViewInit, OnChanges {
         this.rightInput = 1;
       }
 
-      this.rightInput = parseFloat((rate.mid / this.rightRate.mid * this.leftInput).toFixed(4));
+      this.rightInput = parseFloat((rate.mid / this.rightRate.mid * this.leftInput)
+        .toFixed(4));
     }
     else {
-      this.rightInput = 0;
+      this.rightInput = null;
     }
   }
 
@@ -52,10 +58,11 @@ export class CalculatorComponent implements AfterViewInit, OnChanges {
         this.leftInput = 1;
       }
 
-      this.leftInput = parseFloat((rate.mid / this.leftRate.mid * this.rightInput).toFixed(4));
+      this.leftInput = parseFloat((rate.mid / this.leftRate.mid * this.rightInput)
+        .toFixed(4));
     }
     else {
-      this.leftInput = 0;
+      this.leftInput = null;
     }
   }
 }

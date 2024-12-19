@@ -6,6 +6,7 @@ using NBP.Models;
 using NBP.NBPCommands.Interfaces;
 using NBP.NBPQueries;
 using NBP.NBPQueries.Interfaces;
+using System.Net;
 
 namespace KalkulatorWalutowyWebAPI.Controllers
 {
@@ -31,7 +32,7 @@ namespace KalkulatorWalutowyWebAPI.Controllers
         [HttpGet("date")]
         public async Task<NBPResponse> GetNBPRatesInGivenDate(DateTime date)
         {
-            return await nbpQuries.GetNBPDataInGivenDate(date);
+            return await nbpQuries.GetNBPDataByGivenDate(date);
         }
 
         [HttpGet("range")]
@@ -42,9 +43,10 @@ namespace KalkulatorWalutowyWebAPI.Controllers
 
         [Authorize]
         [HttpPost("save")]
-        public async Task SaveRates(Nbp entity)
+        public async Task<IActionResult> SaveRates([FromBody] DateTime date)
         {
-            await nbpCommands.SaveRates(entity);
+            await nbpCommands.SaveRates(date);
+            return StatusCode((int)HttpStatusCode.OK);
         }
     }
 }
