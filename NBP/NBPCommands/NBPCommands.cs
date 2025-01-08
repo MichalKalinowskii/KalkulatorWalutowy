@@ -16,12 +16,10 @@ namespace NBP.NBPCommands
     public class NBPCommands : INBPCommands
     {
         private readonly IKalkulatorContext db;
-        private readonly INBPQueries nbpQueries;
 
-        public NBPCommands(IKalkulatorContext db, INBPQueries nbpQueries)
+        public NBPCommands(IKalkulatorContext db)
         {
             this.db = db;
-            this.nbpQueries = nbpQueries;
         }
 
         public async Task<IActionResult> SaveRates(NBPResponse npbData)
