@@ -1,4 +1,5 @@
-﻿using NBP.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using NBP.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,8 @@ namespace NBP.NBPQueries.Interfaces
 {
     public interface INBPQueries
     {
-        Task<NBPResponse> GetNBPTodayDataAsync();
-        Task<NBPResponse> GetNBPDataByGivenDate(DateTime date);
-        Task<List<NBPResponse>> GetNBPRatesInGivenRange(int range);
+        Task<IActionResult> GetNBPTodayDataAsync();
+        Task<IActionResult> GetNBPDataByGivenDate(DateTime date);
+        Task<IActionResult> GetNBPRatesInGivenRange(int range);
     }
 }

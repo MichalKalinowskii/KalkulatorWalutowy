@@ -1,5 +1,6 @@
 ﻿using Database.Interfaces;
 using Database.Models;
+using Microsoft.AspNetCore.Mvc;
 using NBP.Models;
 using NBP.NBPCommands.Interfaces;
 using NBP.NBPQueries.Interfaces;
@@ -23,17 +24,25 @@ namespace NBP.NBPCommands
             this.nbpQueries = nbpQueries;
         }
 
-        public async Task SaveRates(DateTime date)
+        public async Task<IActionResult> SaveRates(NBPResponse npbData)
         {
-            var respone = await nbpQueries.GetNBPDataByGivenDate(date);
-            var entityToSave = MapToNbp(respone);
+            try
+            {
+                var entityToSave = MapToNbp(npbData);
 
-            db.Set<Nbp>().Add(entityToSave);
+                db.Set<Nbp>().Add(entityToSave);
 
-            await db.SaveChangesAsync();
+                await db.SaveChangesAsync();
+
+                return new OkResult();
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.Message);
+            }
         }
 
-        public Nbp MapToNbp(NBPResponse respone)
+        private Nbp MapToNbp(NBPResponse respone)
         {
             List<Nbprate> rates = new();
 

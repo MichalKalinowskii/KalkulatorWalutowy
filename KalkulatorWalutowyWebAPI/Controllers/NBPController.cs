@@ -24,29 +24,28 @@ namespace KalkulatorWalutowyWebAPI.Controllers
 
 
         [HttpGet("today")]
-        public async Task<NBPResponse> GetNBPTodayRates()
+        public async Task<IActionResult> GetNBPTodayRates()
         {
             return await nbpQuries.GetNBPTodayDataAsync();
         }
 
         [HttpGet("date")]
-        public async Task<NBPResponse> GetNBPRatesInGivenDate(DateTime date)
+        public async Task<IActionResult> GetNBPRatesInGivenDate(DateTime date)
         {
             return await nbpQuries.GetNBPDataByGivenDate(date);
         }
 
         [HttpGet("range")]
-        public async Task<List<NBPResponse>> GetNBPRatesInGivenRange(int range)
+        public async Task<IActionResult> GetNBPRatesInGivenRange(int range)
         {
             return await nbpQuries.GetNBPRatesInGivenRange(range);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPost("save")]
-        public async Task<IActionResult> SaveRates([FromBody] DateTime date)
+        public async Task<IActionResult> SaveRates([FromBody] NBPResponse nbpData)
         {
-            await nbpCommands.SaveRates(date);
-            return StatusCode((int)HttpStatusCode.OK);
+            return await nbpCommands.SaveRates(nbpData);
         }
     }
 }
