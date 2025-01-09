@@ -40,7 +40,7 @@ namespace NBP.NBPQueries
                 return new BadRequestResult();
             }
 
-            return await GetNBPLatestRates(DateTime.Today);
+            return await GetNBPLatestRates(date);
         }
 
         public async Task<IActionResult> GetNBPRatesInGivenRange(int range)
@@ -66,6 +66,11 @@ namespace NBP.NBPQueries
 
         private async Task<IActionResult> GetNBPLatestRates(DateTime date)
         {
+            if (date.Date > DateTime.Today.Date)
+            {
+                return new BadRequestObjectResult("Invalid date");
+            }
+
             NBPResponse result = new();
             HttpResponseMessage response;
             int daysToSubstract = 0;

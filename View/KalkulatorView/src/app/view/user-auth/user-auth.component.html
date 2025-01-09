@@ -1,0 +1,27 @@
+<div class="auth-container">
+    <h2>Login</h2>
+    <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+      <div>
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" [(ngModel)]="loginCredentials.username" required>
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" [(ngModel)]="loginCredentials.password" required>
+      </div>
+      <button type="submit" [disabled]="!loginForm.valid">Login</button>
+    </form>
+  
+    <h2>Register</h2>
+    <form (ngSubmit)="onRegister()" #registerForm="ngForm">
+      <div>
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" [(ngModel)]="registerCredentials.username" required>
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" [(ngModel)]="registerCredentials.password" required>
+      </div>
+      <button type="submit" [disabled]="!registerForm.valid">Register</button>
+    </form>
+  </div>

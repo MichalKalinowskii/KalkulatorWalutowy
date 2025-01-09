@@ -2,7 +2,7 @@
     <div class="mt-3 ml-4">
         <mat-form-field>
             <mat-label>Wybierz date</mat-label>
-            <input matInput [matDatepicker]="picker" (dateChange)="onDateChange($event)" [value]="todayDate">
+            <input matInput [matDatepicker]="picker" (dateChange)="onDateChange($event)" [value]="datePickerValue">
             <mat-hint>DD/MM/RRRR</mat-hint>
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
@@ -10,11 +10,17 @@
     </div>
     <div class="mt-7">
         <button type="submit" (click)="onTodayButtonClick()" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors">
-            Dzisiejsze kursy
+            Najnowsze kursy
         </button>
     </div>
 </div>
 
+@if (difrentDataLoaded) {
+    <div class="ml-4">
+        <h2 class="text-red-500 font-bold">Brak danych dla wybranej daty, wyświetlono kursy dla wcześniejszej daty</h2>
+    </div>
+}
+           
 @if ((exchangeRates$ | async)?.rates; as rates) {
     <div class="container ml-5 flex">
         <!-- Table Section -->

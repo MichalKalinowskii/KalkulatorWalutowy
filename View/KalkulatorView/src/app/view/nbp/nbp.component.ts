@@ -3,7 +3,7 @@ import { OnInit } from '@angular/core';
 import { NbpService } from '../../services/nbpService';
 import { AsyncPipe, CommonModule, DatePipe } from '@angular/common';
 import { NBPRates } from '../../models/NBPRates';
-import { Subject } from 'rxjs';
+import { never, Subject } from 'rxjs';
 import {MatDatepicker, MatDatepickerInputEvent, MatDatepickerModule} from '@angular/material/datepicker';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -29,7 +29,8 @@ import { CalculatorComponent } from "../calculator/calculator.component";
 
 export class NbpComponent implements OnInit {
   public exchangeRates$: Subject<NBPRates> = new Subject<NBPRates>();
-  public todayDate = new Date();
+  public difrentDataLoaded = false;
+  public datePickerValue: Date | null = new Date();
 
   constructor(private nbpService: NbpService, private datePipe: DatePipe) {}
 
@@ -38,24 +39,50 @@ export class NbpComponent implements OnInit {
   }
 
   getTodayExchangeRates(): void {
-    this.nbpService.getTodayExchangeRates().subscribe(data => 
-      {
+    this.difrentDataLoaded = false;
+    this.nbpService.getTodayExchangeRates().subscribe({
+      next: data => {
         if (data?.rates?.length > 0) {
           data.rates.unshift({ code: 'PLN', mid: 1, currency: 'złoty' });
         }
-        this.exchangeRates$.next(data)
-      });
-    this.todayDate = new Date();
+        this.exchangeRates$.next(data);
+        
+        if (data.effectiveDate.toString() !== this.datePipe.transform(new Date(), 'yyyy-MM-dd')) {
+          this.difrentDataLoaded = true;
+          this.datePickerValue = null;
+        }
+
+        this.datePickerValue = data.effectiveDate;
+      },
+      error: err => {
+        console.log(err.error);
+        this.exchangeRates$.next(null as never);
+      }
+    });
   }
 
   getExchangeRatesByDate(date: Date): void {
+    this.difrentDataLoaded = false;
     const formattedDate = this.datePipe.transform(date, 'yyyy-MM-dd');
     if (formattedDate) {
-      this.nbpService.getExchangeRatesByDate(formattedDate).subscribe(data => {
-        if (data?.rates?.length > 0) {
-          data.rates.unshift({ code: 'PLN', mid: 1, currency: 'złoty' });
+      this.nbpService.getExchangeRatesByDate(formattedDate).subscribe({
+        next: data => {
+          if (data?.rates?.length > 0) {
+            data.rates.unshift({ code: 'PLN', mid: 1, currency: 'złoty' });
+          }
+          this.exchangeRates$.next(data);
+          
+          if (data.effectiveDate.toString() !== formattedDate) {
+            this.difrentDataLoaded = true;
+            this.datePickerValue = null;
+          }
+
+          this.datePickerValue = data.effectiveDate;
+        },
+        error: err => {
+          console.log(err.error);
+          this.exchangeRates$.next(null as never);
         }
-        this.exchangeRates$.next(data)
       });
     }
   }
@@ -73,6 +100,6 @@ export class NbpComponent implements OnInit {
   }
 
   public saveNbpRates(): void {
-    this.nbpService.saveNbpRates(this.todayDate.toString()).subscribe(() => {});
+    this.nbpService.saveNbpRates(this.datePickerValue!.toString()).subscribe(() => {});
   }
 }
