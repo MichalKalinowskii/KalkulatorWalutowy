@@ -43,9 +43,9 @@ namespace KalkulatorWalutowyWebAPI.Controllers
 
         //[Authorize]
         [HttpPost("save")]
-        public async Task<IActionResult> SaveRates([FromBody] NBPResponse nbpData)
+        public async Task<IActionResult> SaveRates([FromBody] SaveRates saveRates)
         {
-            return await nbpCommands.SaveRates(nbpData);
+            return await nbpCommands.SaveRates(saveRates);
         }
     }
 }

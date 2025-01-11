@@ -6,6 +6,6 @@ namespace NBP.NBPCommands.Interfaces
 {
     public interface INBPCommands
     {
-        Task<IActionResult> SaveRates(NBPResponse nbpData);
+        Task<IActionResult> SaveRates(SaveRates saveRates);
     }
 }

@@ -18,13 +18,13 @@ namespace KalkulatorWalutowyWebAPI.Controllers
             this.userQueries = userQueries;
         }
 
-        [HttpGet("register")]
+        [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] UserCredentials userCredentials)
         {
             return await userCommands.Register(userCredentials);
         }
 
-        [HttpGet("login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UserCredentials userCredentials)
         {
             return await userQueries.Login(userCredentials);

@@ -13,12 +13,23 @@
             Najnowsze kursy
         </button>
     </div>
+    @if (!userLoggedIn) {
+        <div class="mt-7">
+            <button (click)="openUserAuthModal()" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors">
+                Zaloguj/Zarejestruj się
+            </button>
+        </div>
+    }
 </div>
 
 @if (difrentDataLoaded) {
     <div class="ml-4">
         <h2 class="text-red-500 font-bold">Brak danych dla wybranej daty, wyświetlono kursy dla wcześniejszej daty</h2>
     </div>
+}
+
+@if (showUserAuthModal && !closeModal) {
+    <app-user-auth (userLoggedInEvent)="setUserLoggedIn($event)" (closeModalEvent)="closeModalClick()"></app-user-auth>
 }
            
 @if ((exchangeRates$ | async)?.rates; as rates) {
@@ -50,9 +61,37 @@
     
         <!-- Calculator Section -->
         <div class="w-1/4 ml-4 mt-10">
-            <app-calculator [rates]="rates"></app-calculator>
+            <div>
+                <app-calculator [rates]="rates"></app-calculator>
+            </div>
+            @if (userLoggedIn) {
+                <div class="container mx-auto mt-10 w-full">
+                    <div class="mt-4 flex items-start space-x-4">
+                      <!-- Przyciski po lewej -->
+                      <button 
+                        (click)="saveNbpRates()" 
+                        class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors">
+                        Zapisz
+                      </button>
+                      
+                      <!-- Etykieta i sekcja po prawej -->
+                      <div>
+                        <label for="options" class="block text-lg">Wybierz datę do wczytania:</label>
+                        <select 
+                          id="options" 
+                          [value]="" 
+                          class="mt-2 p-2 w-full border border-gray-300 rounded shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        >
+                          <option value="option1">Opcja 1</option>
+                          <option value="option2">Opcja 2</option>
+                          <option value="option3">Opcja 3</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+            }
         </div>
-    </div>
+    </div>  
 } 
 @else {
     <div class="container mx-auto p-4 float-left text-3xl font-bold">

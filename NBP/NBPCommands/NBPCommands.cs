@@ -22,11 +22,50 @@ namespace NBP.NBPCommands
             this.db = db;
         }
 
-        public async Task<IActionResult> SaveRates(NBPResponse npbData)
+        public async Task<IActionResult> SaveRates(SaveRates saveRates)
         {
             try
             {
-                var entityToSave = MapToNbp(npbData);
+                var user = db.Set<User>()
+                    .Where(x => x.Username == saveRates.userName)
+                    .FirstOrDefault();
+
+                var nbp = db.Set<Nbp>()
+                    .Where(x => x.EffectiveDate == saveRates.nbpData.EffectiveDate)
+                    .FirstOrDefault();
+
+                if (nbp is not null)
+                {
+                    var nbpUser = db.Set<UsersNbp>()
+                    .Where(x => x.Nbpid == nbp.Id)
+                    .Where(x => x.UserId == user.Id)
+                    .FirstOrDefault();
+
+                    if (nbpUser is not null)
+                    {
+                        return new OkResult();
+                    }
+
+                    var userNbpToSave = new UsersNbp
+                    {
+                        UserId = user.Id,
+                        Nbpid = nbp.Id
+                    };
+
+                    db.Set<UsersNbp>().Add(userNbpToSave);
+                    await db.SaveChangesAsync();
+                    return new OkResult();
+                }
+
+                var entityToSave = MapToNbp(saveRates.nbpData);
+
+                var userNbp = new UsersNbp
+                {
+                    UserId = user.Id,
+                    Nbp = entityToSave
+                };
+
+                db.Set<UsersNbp>().Add(userNbp);
 
                 db.Set<Nbp>().Add(entityToSave);
 

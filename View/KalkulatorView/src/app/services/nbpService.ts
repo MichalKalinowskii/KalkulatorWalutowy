@@ -7,7 +7,6 @@ import { NBPRates } from '../models/NBPRates';
     providedIn: 'root'
 })
 export class NbpService {
-
     private apiUrl = 'https://localhost:7037/nbp';
 
     constructor(private http: HttpClient) { }
@@ -20,7 +19,8 @@ export class NbpService {
         return this.http.get<any>(`${this.apiUrl}/date?date=${date}`);
     }
 
-    public saveNbpRates(date: String): Observable<HttpResponse<HttpStatusCode>> {
-        return this.http.post<any>(`${this.apiUrl}/save`, date, { observe: 'response' });
+    public saveNbpRates(nbpData: NBPRates, userName: string): Observable<HttpResponse<HttpStatusCode>> {
+        const saveRates = { nbpData, userName };
+        return this.http.post<any>(`${this.apiUrl}/save`, saveRates);
     }
 }

@@ -1,27 +1,117 @@
-<div class="auth-container">
-    <h2>Login</h2>
-    <form (ngSubmit)="onLogin()" #loginForm="ngForm">
-      <div>
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" [(ngModel)]="loginCredentials.username" required>
+<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  @if (showLoginModal == false && showRegisterModal == false) {
+    <div id="authButtons" class="bg-white rounded-lg shadow-lg p-6 w-96">
+      <div class="flex justify-end">
+        <button
+          class="text-gray-500 text-2xl hover:text-gray-700 transition-colors mb-1"
+          (click)="closeModal()"
+        >
+          &times;
+        </button>
       </div>
-      <div>
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" [(ngModel)]="loginCredentials.password" required>
+      <div class="flex flex-col items-center space-y-4">
+        <button
+          class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+          (click)="openModal('login')"
+        >
+          Logowanie
+        </button>
+        <button
+          class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+          (click)="openModal('register')"
+        >
+          Rejestracja
+        </button>
       </div>
-      <button type="submit" [disabled]="!loginForm.valid">Login</button>
-    </form>
-  
-    <h2>Register</h2>
-    <form (ngSubmit)="onRegister()" #registerForm="ngForm">
-      <div>
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" [(ngModel)]="registerCredentials.username" required>
+    </div>
+  }
+
+  @if (showLoginModal) {
+    <div id="loginModal" class="bg-white rounded-lg shadow-lg p-6 w-96">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-semibold">Logowanie</h2>
+        <button
+          class="text-gray-500 text-2xl hover:text-gray-700 transition-colors"
+          (click)="backToButtons()"
+        >
+          &times;
+        </button>
       </div>
-      <div>
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" [(ngModel)]="registerCredentials.password" required>
+      <form (ngSubmit)="onLogin()" #loginForm="ngForm" class="space-y-4">
+        <div>
+          <label for="username" class="block text-sm font-medium text-gray-700">Nazwa użytkownika</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            [(ngModel)]="loginCredentials.username"
+            required
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700">Hasło</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            [(ngModel)]="loginCredentials.password"
+            required
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+        <button
+          type="submit"
+          [disabled]="!loginForm.valid"
+          class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+        >
+          Logowanie
+        </button>
+      </form>
+    </div>
+  }
+  @else if (showRegisterModal) {
+    <div id="registerModal" class="bg-white rounded-lg shadow-lg p-6 w-96">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-semibold">Rejestracja</h2>
+        <button
+          class="text-gray-500 text-2xl hover:text-gray-700 transition-colors"
+          (click)="backToButtons()"
+        >
+          &times;
+        </button>
       </div>
-      <button type="submit" [disabled]="!registerForm.valid">Register</button>
-    </form>
-  </div>
+      <form (ngSubmit)="onRegister()" #registerForm="ngForm" class="space-y-4">
+        <div>
+          <label for="username" class="block text-sm font-medium text-gray-700">Nazwa użytkownika</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            [(ngModel)]="registerCredentials.username"
+            required
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700">Hasło</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            [(ngModel)]="registerCredentials.password"
+            required
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+        <button
+          type="submit"
+          [disabled]="!registerForm.valid"
+          class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+        >
+          Rejestracja
+        </button>
+      </form>
+    </div>
+  }
+</div>
