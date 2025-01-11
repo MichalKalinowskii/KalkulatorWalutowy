@@ -47,5 +47,11 @@ namespace KalkulatorWalutowyWebAPI.Controllers
         {
             return await nbpCommands.SaveRates(saveRates);
         }
+
+        [HttpGet("usersaves")]
+        public async Task<IActionResult> GetSavedRatesByUser(string userName)
+        {
+            return await nbpQuries.SavedRates(userName);
+        }
     }
 }

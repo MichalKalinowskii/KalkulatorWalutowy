@@ -13,5 +13,6 @@ namespace NBP.NBPQueries.Interfaces
         Task<IActionResult> GetNBPTodayDataAsync();
         Task<IActionResult> GetNBPDataByGivenDate(DateTime date);
         Task<IActionResult> GetNBPRatesInGivenRange(int range);
+        Task<IActionResult> SavedRates(string username);
     }
 }

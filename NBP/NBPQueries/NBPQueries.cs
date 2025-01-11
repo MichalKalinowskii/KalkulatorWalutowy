@@ -2,6 +2,7 @@
 using Database.Interfaces;
 using Database.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NBP.Models;
 using NBP.NBPQueries.Interfaces;
 using Newtonsoft.Json;
@@ -62,6 +63,34 @@ namespace NBP.NBPQueries
             }
 
             return new StatusCodeResult((int)response.StatusCode);
+        }
+
+        public async Task<IActionResult> SavedRates(string username)
+        {
+            try
+            {
+                var user = db.Set<User>()
+                    .Where(x => x.Username == username)
+                    .FirstOrDefault();
+
+                if (user == null) 
+                {
+                    return new BadRequestObjectResult("User doesnt exists!");
+                }
+
+                var rates = db.Set<UsersNbp>()
+                    .Include(x => x.Nbp)
+                        .ThenInclude(x => x.Nbprates)
+                    .Where(x => x.UserId == user.Id)
+                    .Select(x => x.Nbp)
+                    .ToList();
+
+                return new OkObjectResult(rates);
+            }
+            catch (Exception ex)
+            {
+                return new BadRequestObjectResult(ex.Message);
+            }
         }
 
         private async Task<IActionResult> GetNBPLatestRates(DateTime date)

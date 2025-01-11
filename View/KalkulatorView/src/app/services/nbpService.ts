@@ -23,4 +23,9 @@ export class NbpService {
         const saveRates = { nbpData, userName };
         return this.http.post<any>(`${this.apiUrl}/save`, saveRates);
     }
+
+    public getSavedRates(userName: string): Observable<NBPRates[]> 
+    {
+        return this.http.get<any>(`${this.apiUrl}/usersaves?userName=${userName}`);
+    }
 }

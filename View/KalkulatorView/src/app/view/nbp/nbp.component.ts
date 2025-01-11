@@ -37,6 +37,7 @@ export class NbpComponent implements OnInit {
   public showUserAuthModal: boolean = false;
   public closeModal: boolean = true;
   public loggedUserName: string = '';
+  public savedRates: NBPRates[] = [];
 
   constructor(private nbpService: NbpService, private datePipe: DatePipe) {}
 
@@ -105,6 +106,17 @@ export class NbpComponent implements OnInit {
         }
       });
     }
+  }
+
+  getSavedRates(): void {
+    this.nbpService.getSavedRates(this.loggedUserName).subscribe({
+      next: data => {
+        this.savedRates = data;
+      },
+      error: err => {
+        console.log('Get saved rates error', err);
+      }
+    });
   }
 
   onDateChange(event: MatDatepickerInputEvent<Date>): void {
