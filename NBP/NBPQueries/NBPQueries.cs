@@ -73,7 +73,7 @@ namespace NBP.NBPQueries
                     .Where(x => x.Username == username)
                     .FirstOrDefault();
 
-                if (user == null) 
+                if (user == null)
                 {
                     return new BadRequestObjectResult("User doesnt exists!");
                 }
@@ -85,12 +85,32 @@ namespace NBP.NBPQueries
                     .Select(x => x.Nbp)
                     .ToList();
 
-                return new OkObjectResult(rates);
+                return new OkObjectResult(MapToNbpResponse(rates));
             }
             catch (Exception ex)
             {
                 return new BadRequestObjectResult(ex.Message);
             }
+        }
+
+        private List<NBPResponse> MapToNbpResponse(List<Nbp> nbps)
+        {
+            List<NBPResponse> result = new();
+
+            foreach (var nbp in nbps)
+            {
+                var nbpResponeToMap = new NBPResponse()
+                {
+                    EffectiveDate = nbp.EffectiveDate,
+                    No = nbp.No,
+                    Table = nbp.TableType,
+                    TradingDate = nbp.TradingDate,
+                    Rates = nbp.Nbprates.Select(x => new Rates() { Code = x.Code, Currency = x.Currency, Mid = x.Mid.Value }).ToList()
+                };
+                result.Add(nbpResponeToMap);
+            }
+
+            return result;
         }
 
         private async Task<IActionResult> GetNBPLatestRates(DateTime date)

@@ -31,19 +31,21 @@ export class UserAuthComponent {
       },
       error: err => {
         console.log('Login error:', err);
+        alert(err.error);
       },
     });    
   }
 
   onRegister() {
     this.userService.register(this.registerCredentials).subscribe({
-      next: data => {
+      next: () => {
         console.log('Registration successful');
         this.userLoggedInEvent.emit(this.registerCredentials.username);
         this.closeModal();
       },
       error: err => {
-        console.log('Registration error:', err);
+        console.log('Registration error:', err.error);
+        alert(err.error);
       },
     });    
   }

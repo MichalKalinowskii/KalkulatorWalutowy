@@ -43,7 +43,7 @@ namespace User.UserCommands
 
                 await db.SaveChangesAsync();
 
-                return new OkObjectResult("User registered successfully.");
+                return new OkObjectResult(new { message = "User registered successfully." });
             }
             catch (Exception)
             {
