@@ -75,18 +75,18 @@
                       </button>
                       
                       <!-- Etykieta i sekcja po prawej -->
+
                       <div>
                         <label for="options" class="block text-lg">Wybierz datę do wczytania:</label>
-                        <select 
-                          id="options" 
-                          [value]="" 
-                          class="mt-2 p-2 w-full border border-gray-300 rounded shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                        >
-                          <option value="option1">Opcja 1</option>
-                          <option value="option2">Opcja 2</option>
-                          <option value="option3">Opcja 3</option>
+                        <select id="options" 
+                            class="mt-2 p-2 w-full border border-gray-300 rounded shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                            <option selected="selected">Wybierz datę</option>
+                            @for (item of savedRates; track $index) {
+                                <option (click)="updateRates(item)" [value]="item">{{item.effectiveDate}}</option>
+                            }
                         </select>
                       </div>
+
                     </div>
                   </div>
             }

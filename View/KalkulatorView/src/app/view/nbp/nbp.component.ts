@@ -48,13 +48,14 @@ export class NbpComponent implements OnInit {
   setUserLoggedIn(value: string): void {
     this.userLoggedIn = true;
     this.loggedUserName = value;
+    this.getSavedRates();
   }
 
   openUserAuthModal(): void {
     this.showUserAuthModal = true;
     this.closeModal = false;
   }
-  
+
   closeModalClick() {
     this.closeModal = true;
   }
@@ -130,15 +131,22 @@ export class NbpComponent implements OnInit {
     this.nbpService.saveNbpRates(this.exchangeRates$.value, this.loggedUserName).subscribe({
       next: data => {
         console.log('Saved');
+        this.savedRates.push(this.exchangeRates$.value);
+        this.savedRates = this.savedRates.sort((a, b) => new Date(a.effectiveDate).getTime() - new Date(b.effectiveDate).getTime());
       },
       error: err => {
         console.log('Save error', err);
       },
-    }); ;
+    });
   }
 
   onTodayButtonClick(): void {
     console.log('onTodayButtonClick');
     this.getTodayExchangeRates();
+  }
+
+  updateRates(rates: NBPRates): void {
+    this.exchangeRates$.next(rates);
+    this.datePickerValue = rates.effectiveDate;
   }
 }

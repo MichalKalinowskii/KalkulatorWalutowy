@@ -83,6 +83,7 @@ namespace NBP.NBPQueries
                         .ThenInclude(x => x.Nbprates)
                     .Where(x => x.UserId == user.Id)
                     .Select(x => x.Nbp)
+                    .OrderBy(x => x.EffectiveDate)
                     .ToList();
 
                 return new OkObjectResult(MapToNbpResponse(rates));
