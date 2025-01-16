@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse, HttpStatusCode  } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpStatusCode } from '@angular/common/http';
 import { catchError, Observable } from 'rxjs';
 import { NBPRates } from '../models/NBPRates';
 
