@@ -13,19 +13,20 @@ import { UserAuthComponent } from "../user-auth/user-auth.component";
 
 
 @Component({
-    selector: 'app-nbp',
-    providers: [provideNativeDateAdapter(), DatePipe],
-    imports: [
-        CommonModule,
-        AsyncPipe,
-        MatFormFieldModule,
-        MatInputModule,
-        MatDatepickerModule,
-        CalculatorComponent,
-        UserAuthComponent
-    ],
-    templateUrl: './nbp.component.html',
-    styleUrl: './nbp.component.css'
+  selector: 'app-nbp',
+  standalone: true,
+  providers: [provideNativeDateAdapter(), DatePipe],
+  imports: [
+    CommonModule,
+    AsyncPipe,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    CalculatorComponent,
+    UserAuthComponent
+],
+  templateUrl: './nbp.component.html',
+  styleUrl: './nbp.component.css'
 })
 
 export class NbpComponent implements OnInit {
