@@ -5,11 +5,10 @@ import { UserService } from '../../services/userService';
 import { HttpResponse, HttpStatusCode } from '@angular/common/http';
 
 @Component({
-  selector: 'app-user-auth',
-  standalone: true,
-  imports: [FormsModule],
-  templateUrl: './user-auth.component.html',
-  styleUrls: ['./user-auth.component.css']
+    selector: 'app-user-auth',
+    imports: [FormsModule],
+    templateUrl: './user-auth.component.html',
+    styleUrls: ['./user-auth.component.css']
 })
 export class UserAuthComponent {
   @Output() public userLoggedInEvent = new EventEmitter<string>();
