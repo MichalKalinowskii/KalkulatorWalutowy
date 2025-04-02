@@ -10,6 +10,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {provideNativeDateAdapter} from '@angular/material/core';
 import { CalculatorComponent } from "../calculator/calculator.component";
 import { UserAuthComponent } from "../user-auth/user-auth.component";
+import { FormsModule } from '@angular/forms';
+import {MatIconModule} from '@angular/material/icon'
 
 
 @Component({
@@ -23,7 +25,9 @@ import { UserAuthComponent } from "../user-auth/user-auth.component";
     MatInputModule,
     MatDatepickerModule,
     CalculatorComponent,
-    UserAuthComponent
+    UserAuthComponent,
+    FormsModule,
+    MatIconModule
 ],
   templateUrl: './nbp.component.html',
   styleUrl: './nbp.component.css'
@@ -38,6 +42,7 @@ export class NbpComponent implements OnInit {
   public closeModal: boolean = true;
   public loggedUserName: string = '';
   public savedRates: NBPRates[] = [];
+  public selectedSavedRate: NBPRates = null as never;
 
   constructor(private nbpService: NbpService, private datePipe: DatePipe) {}
 
@@ -148,5 +153,9 @@ export class NbpComponent implements OnInit {
   updateRates(rates: NBPRates): void {
     this.exchangeRates$.next(rates);
     this.datePickerValue = rates.effectiveDate;
+  }
+
+  onSavedRateChange() {
+    this.updateRates(this.selectedSavedRate);
   }
 }

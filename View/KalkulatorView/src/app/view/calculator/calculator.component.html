@@ -1,23 +1,67 @@
-<div class="container flex space-x-4">
-    <div class>
-        <input [(ngModel)]="leftInput" (input)="onLeftRateChange(leftRate)" type="number" class="block border border-gray-300 rounded-md p-2" placeholder="Podaj wartość" min="0">
-        <input [(ngModel)]="rightInput" (input)="onRightRateChange(rightRate)" type="number" class="block border border-gray-300 rounded-md p-2" placeholder="Podaj wartość" min="0">
-    </div>
-    <div>
-        <div class="container">
-            <select [(ngModel)]="leftRate" (change)="onLeftRateChange(leftRate)" class="block border border-gray-300 rounded-md p-2">
-                @for (rate of rates; track rate.code) 
-                {
-                    <option [ngValue]="rate">[{{ rate.code }}] {{ rate.currency }}</option>
-                }
-            </select>
-            
-            <select [(ngModel)]="rightRate" (change)="onRightRateChange(rightRate)" class="block border border-gray-300 rounded-md p-2">
-                @for (rate of rates; track rate.code) 
-                {
-                    <option [ngValue]="rate">[{{ rate.code }}] {{ rate.currency }}</option>
-                }
-            </select>
+<div class="bg-white p-6 rounded-lg shadow-md max-w-md mx-auto">
+    <h3 class="text-lg font-semibold mb-4 text-gray-700 text-center">Przelicznik Walut</h3>
+    <div class="space-y-4">
+  
+      <div class="flex items-end space-x-3">
+        <div class="flex-grow">
+          <label for="leftInput" class="block text-sm font-medium text-gray-700 mb-1">Kwota</label>
+          <input
+            id="leftInput"
+            [(ngModel)]="leftInput"
+            (input)="onLeftRateChange(leftRate)"
+            type="number"
+            class="block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+            placeholder="Podaj wartość"
+            min="0"
+          />
         </div>
+        <div class="flex-shrink-0 w-40">
+           <label for="leftRateSelect" class="block text-sm font-medium text-gray-700 mb-1">Waluta</label>
+          <select
+            id="leftRateSelect"
+            [(ngModel)]="leftRate"
+            (change)="onLeftRateChange(leftRate)"
+            class="block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 appearance-none transition duration-150 ease-in-out"
+           >
+            @for (rate of rates; track rate.code) {
+              <option [ngValue]="rate">[{{ rate.code }}] {{ rate.currency }}</option>
+            }
+          </select>
+        </div>
+      </div>
+  
+      <div class="flex justify-center items-center text-gray-400 pt-2 pb-1">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 transform rotate-90">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h18m-7.5-14L21 7.5m0 0L16.5 12M21 7.5H3" />
+        </svg>
+      </div>
+  
+      <div class="flex items-end space-x-3">
+        <div class="flex-grow">
+           <label for="rightInput" class="block text-sm font-medium text-gray-700 mb-1">Wynik</label>
+          <input
+            id="rightInput"
+            [(ngModel)]="rightInput"
+            type="number"
+            class="block w-full border border-gray-300 rounded-md p-2 shadow-sm bg-gray-100 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+            placeholder="Wynik"
+            min="0"
+            readonly  
+          />
+          </div>
+        <div class="flex-shrink-0 w-40">
+          <label for="rightRateSelect" class="block text-sm font-medium text-gray-700 mb-1">Waluta</label>
+          <select
+            id="rightRateSelect"
+            [(ngModel)]="rightRate"
+            (change)="onRightRateChange(rightRate)"
+            class="block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 appearance-none transition duration-150 ease-in-out">
+            @for (rate of rates; track rate.code) {
+              <option [ngValue]="rate">[{{ rate.code }}] {{ rate.currency }}</option>
+            }
+          </select>
+        </div>
+      </div>
+  
     </div>
-</div>
+  </div>

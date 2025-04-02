@@ -1,114 +1,126 @@
-<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+<div class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4 transition-opacity duration-300 ease-in-out">
+
   @if (showLoginModal == false && showRegisterModal == false) {
-    <div id="authButtons" class="bg-white rounded-lg shadow-lg p-6 w-96">
-      <div class="flex justify-end">
+    <div class="relative bg-white rounded-xl shadow-xl p-8 w-full max-w-sm text-center transform transition-all duration-300 ease-in-out scale-100">
+       <button
+        class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition-colors text-2xl leading-none font-semibold focus:outline-none"
+        (click)="closeModal()"
+        aria-label="Zamknij"
+       >
+        &times;
+       </button>
+
+      <h2 class="text-xl font-semibold text-gray-800 mb-6">Witaj!</h2>
+      <div class="flex flex-col space-y-4">
         <button
-          class="text-gray-500 text-2xl hover:text-gray-700 transition-colors mb-1"
-          (click)="closeModal()"
-        >
-          &times;
-        </button>
-      </div>
-      <div class="flex flex-col items-center space-y-4">
-        <button
-          class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+          class="w-full bg-blue-500 text-white py-2.5 px-4 rounded-lg shadow-sm hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 font-medium"
           (click)="openModal('login')"
         >
           Logowanie
         </button>
         <button
-          class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+          class="w-full bg-green-500 text-white py-2.5 px-4 rounded-lg shadow-sm hover:bg-green-600 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 font-medium"
           (click)="openModal('register')"
-        >
-          Rejestracja
+         >
+           Rejestracja
         </button>
       </div>
     </div>
   }
 
   @if (showLoginModal) {
-    <div id="loginModal" class="bg-white rounded-lg shadow-lg p-6 w-96">
-      <div class="flex justify-between items-center mb-4">
-        <h2 class="text-lg font-semibold">Logowanie</h2>
-        <button
-          class="text-gray-500 text-2xl hover:text-gray-700 transition-colors"
+    <div class="relative bg-white rounded-xl shadow-xl p-8 w-full max-w-sm transform transition-all duration-300 ease-in-out scale-100">
+      <div class="flex justify-between items-center mb-6">
+         <h2 class="text-xl font-semibold text-gray-800">Logowanie</h2>
+         <button
+          class="text-gray-400 hover:text-gray-600 transition-colors text-2xl leading-none font-semibold focus:outline-none"
           (click)="backToButtons()"
+           aria-label="Zamknij"
         >
           &times;
-        </button>
+         </button>
       </div>
-      <form (ngSubmit)="onLogin()" #loginForm="ngForm" class="space-y-4">
+      <form (ngSubmit)="onLogin()" #loginForm="ngForm" class="space-y-5">
         <div>
-          <label for="username" class="block text-sm font-medium text-gray-700">Nazwa użytkownika</label>
+          <label for="login-username" class="block text-sm font-medium text-gray-700 mb-1">Nazwa użytkownika</label>
           <input
             type="text"
-            id="username"
+            id="login-username"
             name="username"
             [(ngModel)]="loginCredentials.username"
             required
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition duration-150 ease-in-out"
+            placeholder="Wpisz nazwę użytkownika"
           />
-        </div>
+           </div>
         <div>
-          <label for="password" class="block text-sm font-medium text-gray-700">Hasło</label>
+          <label for="login-password" class="block text-sm font-medium text-gray-700 mb-1">Hasło</label>
           <input
             type="password"
-            id="password"
+            id="login-password"
             name="password"
             [(ngModel)]="loginCredentials.password"
             required
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition duration-150 ease-in-out"
+            placeholder="Wpisz hasło"
           />
-        </div>
+          </div>
         <button
           type="submit"
           [disabled]="!loginForm.valid"
-          class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+          class="w-full bg-blue-500 text-white py-2.5 px-4 rounded-lg shadow-sm hover:bg-blue-600 transition-colors disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 font-medium"
         >
-          Logowanie
+          Zaloguj się
         </button>
       </form>
     </div>
   }
+
   @else if (showRegisterModal) {
-    <div id="registerModal" class="bg-white rounded-lg shadow-lg p-6 w-96">
-      <div class="flex justify-between items-center mb-4">
-        <h2 class="text-lg font-semibold">Rejestracja</h2>
-        <button
-          class="text-gray-500 text-2xl hover:text-gray-700 transition-colors"
+    <div class="relative bg-white rounded-xl shadow-xl p-8 w-full max-w-sm transform transition-all duration-300 ease-in-out scale-100">
+       <div class="flex justify-between items-center mb-6">
+        <h2 class="text-xl font-semibold text-gray-800">Rejestracja</h2>
+         <button
+          class="text-gray-400 hover:text-gray-600 transition-colors text-2xl leading-none font-semibold focus:outline-none"
           (click)="backToButtons()"
+          aria-label="Zamknij"
         >
           &times;
-        </button>
-      </div>
-      <form (ngSubmit)="onRegister()" #registerForm="ngForm" class="space-y-4">
+         </button>
+       </div>
+      <form (ngSubmit)="onRegister()" #registerForm="ngForm" class="space-y-5">
         <div>
-          <label for="username" class="block text-sm font-medium text-gray-700">Nazwa użytkownika</label>
+          <label for="register-username" class="block text-sm font-medium text-gray-700 mb-1">Nazwa użytkownika</label>
           <input
             type="text"
-            id="username"
+            id="register-username"
             name="username"
             [(ngModel)]="registerCredentials.username"
             required
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
-          />
-        </div>
+            #username="ngModel"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition duration-150 ease-in-out"
+            placeholder="Wybierz nazwę użytkownika"
+           />
+           </div>
         <div>
-          <label for="password" class="block text-sm font-medium text-gray-700">Hasło</label>
+           <label for="register-password" class="block text-sm font-medium text-gray-700 mb-1">Hasło</label>
           <input
             type="password"
-            id="password"
+            id="register-password"
             name="password"
             [(ngModel)]="registerCredentials.password"
             required
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            #password="ngModel"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition duration-150 ease-in-out"
+            placeholder="Wybierz hasło"
           />
-        </div>
-        <button
+           </div>
+         <button
           type="submit"
           [disabled]="!registerForm.valid"
-          class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50">
-          Rejestracja
+          class="w-full bg-green-500 text-white py-2.5 px-4 rounded-lg shadow-sm hover:bg-green-600 transition-colors disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 font-medium"
+        >
+          Zarejestruj się
         </button>
       </form>
     </div>
