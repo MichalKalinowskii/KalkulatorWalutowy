@@ -5,18 +5,16 @@
             <div class="flex items-center h-10"> 
                 <button mat-icon-button (click)="picker.open()" type="button"
                     class="text-gray-400 hover:text-gray-200" aria-label="Wybierz datę">
-                    
-                    <span class="ml-2 text-sm text-gray-300"> {{ datePickerValue ? (datePickerValue | date:'dd.MM.yyyy') : 'Wybierz datę...' }}
-                    </span>
-                    
-                    <input
+
+                    <input 
                     [matDatepicker]="picker"
                     [(ngModel)]="datePickerValue"
                     (dateChange)="onDateChange($event)"
-                    class="cdk-visually-hidden"
-                aria-hidden="true"
-                tabindex="-1"
-                >
+                    type="hidden"
+                    >
+                    <span class="ml-2 text-sm text-gray-300"> 
+                      {{ datePickerValue ? (datePickerValue | date:'dd.MM.yyyy') : 'Wybierz datę...' }}
+                    </span>
                 
                 <mat-datepicker #picker></mat-datepicker>
                 </button>
