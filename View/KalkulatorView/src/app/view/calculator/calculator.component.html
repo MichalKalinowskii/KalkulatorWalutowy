@@ -42,11 +42,11 @@
           <input
             id="rightInput"
             [(ngModel)]="rightInput"
+            (change)="onRightRateChange(rightRate)"
             type="number"
             class="block w-full border border-gray-300 rounded-md p-2 shadow-sm bg-gray-100 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
             placeholder="Wynik"
             min="0"
-            readonly  
           />
           </div>
         <div class="flex-shrink-0 w-40">

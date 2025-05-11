@@ -158,4 +158,9 @@ export class NbpComponent implements OnInit {
   onSavedRateChange() {
     this.updateRates(this.selectedSavedRate);
   }
+
+  onAiButtonClick(): void 
+  {
+    
+  }
 }

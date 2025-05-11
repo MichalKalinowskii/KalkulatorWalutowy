@@ -1,14 +1,10 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { NbpComponent } from "./view/nbp/nbp.component";
 
 @Component({
     selector: 'app-root',
-    imports: [CommonModule, NbpComponent],
+    imports: [RouterOutlet],
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  title = 'KalkulatorView';
-}
+export class AppComponent {}
