@@ -12,6 +12,7 @@ import { CalculatorComponent } from "../calculator/calculator.component";
 import { UserAuthComponent } from "../user-auth/user-auth.component";
 import { FormsModule } from '@angular/forms';
 import {MatIconModule} from '@angular/material/icon'
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -44,7 +45,10 @@ export class NbpComponent implements OnInit {
   public savedRates: NBPRates[] = [];
   public selectedSavedRate: NBPRates = null as never;
 
-  constructor(private nbpService: NbpService, private datePipe: DatePipe) {}
+  constructor(
+    private nbpService: NbpService, 
+    private datePipe: DatePipe,
+    private router: Router) {}
 
   ngOnInit(): void {
     this.getTodayExchangeRates();
@@ -161,6 +165,6 @@ export class NbpComponent implements OnInit {
 
   onAiButtonClick(): void 
   {
-    
+    this.router.navigate(['/ai']);
   }
 }

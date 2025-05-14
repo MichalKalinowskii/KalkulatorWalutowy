@@ -1,1 +1,37 @@
-<p>ai works!</p>
+<div class="bg-gray-50 p-4 rounded-lg shadow-sm mb-6 flex flex-wrap items-center gap-4">
+    <div class="flex-shrink-0">
+        <button 
+            (click)="backToMainPage()" 
+            class="bg-green-500 text-white py-2 px-4 rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors text-sm font-medium">
+        Powrót do strony głównej
+        </button>
+    </div>
+</div>
+    <div class="flex-shrink-0 w-full sm:w-auto">
+        <div class="flex items-center h-10"> 
+            <button mat-icon-button (click)="picker.open()" type="button"
+                class="text-black-500 hover:text-gray-400" aria-label="Wybierz datę">
+                
+                <input 
+                [matDatepicker]="picker"
+                [(ngModel)]="datePickerValue"
+                (dateChange)="onDateChange($event)"
+                type="hidden"
+                >
+                <span class="ml-2 text-sm text-black-500"> 
+                    {{ datePickerValue ? (datePickerValue | date:'dd-MM-yyyy') : 'Wybierz datę...' }}
+                </span>
+                
+                <mat-datepicker #picker></mat-datepicker>
+            </button>
+        </div>
+    </div>
+
+    <p>Kurs euro    na dzień: wybrany {{todayEuro}}   -> następny {{tomorowEuro}},   różnica {{differenceEuro}}</p>
+    <p>Kurs dollara na dzień: wybrany {{todayDollar}} -> następny {{tomorowDollar}}, różnica {{differenceDollar}}</p>
+
+    <div>
+        <button class="bg-blue-500 text-white" (click)="predictTomorowCourse()">Oszacuj jutrzejszy kurs</button>
+    </div>
+
+    <p>{{aiResponse}}</p>
